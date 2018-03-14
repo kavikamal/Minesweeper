@@ -1,0 +1,59 @@
+body{
+    width: 850px;
+    height: 100vh;
+    background-color: grey;
+    margin: 0 auto;
+}
+.pageHeading{
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+    color: rgb(238, 230, 217);
+    background-color: darkblue;
+}
+.gamePage{
+    display:flex;
+    flex-direction: column;
+    justify-content:center ;
+    border:2px solid white;
+    background-color: darkcyan;
+}
+.emptySpace{
+    min-width: 20px;
+    min-height:20px;
+}
+.minesweeperGrid{
+    text-align: center;
+    margin: auto; 
+}
+.mineRow{
+    display: flex;
+    flex-direction: row; 
+}
+.mineSquare{
+    border:1px solid black;
+    width:50px;
+    height:50px;
+}
+.msgDisplay{
+    display:flex;
+    flex-basis: content;
+
+    text-align: center;
+    margin: auto; 
+    height:50px;
+  
+}
+.minesNumberDisplay{
+    background-color: black;
+    color:red;
+    font-size: 50px;
+    font-family: 'Arial Narrow';
+}
+#gameStatusImage{
+    min-width:50px;
+    background-image: url("images/happy.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+}
