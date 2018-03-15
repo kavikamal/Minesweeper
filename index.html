@@ -12,15 +12,22 @@
 <body>
     <section class="pageHeading">Minesweeper</section>
     <section class="gamePage">
-        <div class="emptySpace"></div>
+        
+        <div class="inputDivClass">
+            <div>Height : <input class="textClass" type="number" id="height" min="5" max="99"value="10"  /></div>
+            <div> Width : <input class="textClass" type="number" id="width" min="5" max="99" value="10" /></div>
+            <div> Mines : <input class="textClass" type="number" id="noOfMines" min="5" max="99" value="10" /></div>
+            <div><input type="button" value="Start" onclick="startANewGame()" class="startBtn" ></div>
+        </div>
+        
         <div class="msgDisplay">
             <div id="remainingMines" class="minesNumberDisplay"></div>
             <div id="gameStatusImage" onclick="startANewGame()"></div>
-            <div id="seconds" class="minesNumberDisplay"></div>
+            <div id="seconds" class="timer"></div>
         </div>
-        <div class="emptySpace"></div>
+        
         <div id="minesweeperGrid" class="minesweeperGrid"></div>
-        <div class="emptySpace"></div>
+        <div id="messegeDiv"></div>
     </section>
     <script src="minesweeper.js" type="text/javascript"></script>
 </body>
