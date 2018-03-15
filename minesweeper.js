@@ -204,42 +204,40 @@ clickEventFunc = function (event) {
         changeImage(squareId,'?');
     }
     else {
-        if (checkCurrentSquare(i,j)){
+        var currentSquare=checkCurrentSquare(i,j);
+        if (currentSquare=="0")
+        {
              checkAdjSquares(i,j);
         }   
     }
 };
 
 function gameOverFunc(x,y){
-    
     board.map[x][y]+="*";
-    changeImage(""+x+y,board.map[x][y]);
-    
-    console.log(board.minesArr)
+    changeImage(""+x+y,""+board.map[x][y]);
     for (let k=0;k<board.minesArr.length;k++)
       {
-          console.log(board.minesArr[k]);
           let mineLoc=""+board.minesArr[k];
           let i=parseInt(mineLoc.charAt(0));
           let j=parseInt(mineLoc.charAt(1));
-          changeImage(""+i+j,board.map[i][j]);
+          changeImage(""+i+j,""+board.map[i][j]);
      
       }
-      changeImage("gameStatusImage",'L');
+    changeImage("gameStatusImage",'L');
     
 }
 
 function checkCurrentSquare(x,y)
  {
     if ((""+board.map[x][y]).includes("*")){
-        return false;
+        return "*";
     }
     else if ("12345678".includes(board.map[x][y])){
-        changeImage(""+x+y,board.map[x][y]);
-        return false;
+        changeImage(""+x+y,""+board.map[x][y]);
+        return "1";
     }else if ((""+board.map[x][y]).includes("0")){
-        changeImage(""+x+y,board.map[x][y]);
-        return true;
+        changeImage(""+x+y,""+board.map[x][y]);
+        return "0";
     }
  }
 
@@ -248,14 +246,19 @@ function checkAdjSquares(x,y){
    let tmpy=y-1;
    for(let k=tmpx;k<tmpx+3;k++ ){
         for(let l=tmpy;l<tmpy+3;l++){
-            if ((k >= 0 && k < board.height) && (l >= 0 && l < board.width) && (checkCurrentSquare(k,l))){
-                checkAdjSquares(k,l);
+            if ((k >= 0 && k < board.height) && (l >= 0 && l < board.width) ){
+                var currentSquare=checkCurrentSquare(k,l);
+                if (currentSquare=="0")
+                {
+                    checkAdjSquares(k,l);
+                }  
+               
             }  
-         }
-    return;        
-    }      
+         }        
+    } 
+    return;       
 }
-      
+
 //Function to change the image for particular square 
 function changeImage(elementId,imgId){
     let mineSquare = document.getElementById(elementId);
@@ -272,7 +275,6 @@ function startANewGame() {
     var cloneGrid = mineGrid.cloneNode();
     mineGrid.parentNode.replaceChild(cloneGrid, mineGrid);
     if (w<1 || h<1 || n<1){ 
-        console.log(board);
         if (board){
             w=board.width;
             h=board.height;
