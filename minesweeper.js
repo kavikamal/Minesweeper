@@ -287,7 +287,7 @@ function startANewGame() {
     var mineGrid = document.getElementById("minesweeperGrid");
     var cloneGrid = mineGrid.cloneNode();
     mineGrid.parentNode.replaceChild(cloneGrid, mineGrid);
-    if (w < 1 || h < 1 || n < 1) {
+    if (w < 1 || h < 1 || n < 1|| w>10 || h>10) {
         if (board) {
             w = board.width;
             h = board.height;
