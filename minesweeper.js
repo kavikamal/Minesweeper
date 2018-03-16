@@ -4,9 +4,10 @@ var Board = function (w, h, n) {
     this.noOfMines = n,
     this.remainingMines = n,
     this.map,
-    this.squareCount = 0;
+    this.flagCount = 0,
     this.minesArr = [],
     this.flagArr = [],
+    this.visitedSquares = [],
     this.mines = function () {
         //This function generate Mines array
         var totalSquares = this.width * this.height;
@@ -73,6 +74,7 @@ var Board = function (w, h, n) {
         document.getElementById("remainingMines").textContent = pad(this.remainingMines);
         var mineMap = this.mineMap();
         for (let i = 0; i < board.height; i++) {
+            board.visitedSquares[i]=[];
             gridCol = document.createElement("div");
             gridCol.className = "mineRow";
             for (let j = 0; j < board.width; j++) {
@@ -81,6 +83,7 @@ var Board = function (w, h, n) {
                 mineSquare.setAttribute("style", "background-image:url('" + this.imageUrl('E') + "')");
                 mineSquare.className = "mineSquare";
                 gridCol.appendChild(mineSquare);
+                board.visitedSquares[i][j]=0;
             }
             minesweeperGrid.appendChild(gridCol);
         }
@@ -151,7 +154,9 @@ rightClickEventFunc = function (event) {
     let j = parseInt(squareId.charAt(1));
     if (!("" + board.map[i][j]).includes("F")) {
         changeImage(squareId, 'F');
-        board.squareCount++;
+        board.flagArr.push(squareId);
+        board.flagCount++;
+        board.visitedSquares[i][j] = 1;
         board.remainingMines = board.remainingMines - 1;
         document.getElementById("remainingMines").textContent = pad(board.remainingMines);
         board.map[i][j] += "F";
@@ -164,19 +169,18 @@ clickEventFunc = function (event) {
     let squareId = event.srcElement.id;
     let i = parseInt(squareId.charAt(0));
     let j = parseInt(squareId.charAt(1));
-    //Reintialize flag array map elements as 0 for each click 
-    for (let x = 0; x < board.height; x++) {
-        board.flagArr[x] = [];
-        for (let y = 0; y < board.width; y++) {
-            board.flagArr[x][y] = 0;
-        }
-    }
     if (("" + board.map[i][j]).includes("F")) {
         let newStr = board.map[i][j];
         newStr = newStr.substr(0, newStr.length - 1);
         board.map[i][j] = "" + newStr;
-        board.squareCount--;
+        //board.squareCount--;
+        var index=board.flagArr.indexOf(squareId)
+        if (index>-1){
+            board.flagArr.splice(index,1);
+        }
+        board.flagCount--;
         board.remainingMines++;
+        board.visitedSquares[i][j] = 0;
         document.getElementById("remainingMines").textContent = pad(board.remainingMines);
         changeImage(squareId, '?');
     }
@@ -193,18 +197,16 @@ clickEventFunc = function (event) {
 };
 //Check the clicked square 
 function checkCurrentSquare(x, y) {
-    //console.log(board.flagArr);
-    
-    board.flagArr[x][y] = 1;
+    board.visitedSquares[x][y] = 1;
     if (("" + board.map[x][y]).includes("*")||("" + board.map[x][y]).includes("F")) {
         return "-1";
     }
     else if ("12345678".includes(board.map[x][y])) {
-        board.squareCount++;
+        //board.squareCount++;
         changeImage("" + x + y, "" + board.map[x][y]);
         return "1";
     } else if (("" + board.map[x][y]).includes("0")) {
-        board.squareCount++;
+        //board.squareCount++;
         changeImage("" + x + y, "" + board.map[x][y]);
         return "0";
     }
@@ -217,7 +219,7 @@ function checkAdjSquares(x, y) {
     for (let k = tmpx; k < tmpx + 3; k++) {
         for (let l = tmpy; l < tmpy + 3; l++) {
             if ((k >= 0 && k < board.height) && (l >= 0 && l < board.width)) {
-                if (board.flagArr[k][l] == 0) {
+                if (board.visitedSquares[k][l] == 0) {
                     var currentSquare = checkCurrentSquare(k, l);
                     if (currentSquare == "0") {
                         checkAdjSquares(k, l);
@@ -229,8 +231,7 @@ function checkAdjSquares(x, y) {
     return;
 }
 //Function called when the game is over
-gameOverFunc = function(x, y) {
-    
+gameOverFunc = function(x, y) {    
     for (let k = 0; k < board.minesArr.length; k++) {
         let mineLoc = "" + board.minesArr[k];
         let i = parseInt(mineLoc.charAt(0));
@@ -247,7 +248,12 @@ gameOverFunc = function(x, y) {
 };
 //Function to check if the player has won the game
 isPlayerWon = function () {
-    if (board.squareCount == board.width * board.height) {
+    board.flagArr.sort();
+    board.minesArr.sort();
+    //console.log(board.flagArr,board.minesArr,board.visitedSquares);   
+    if ((board.flagCount == board.noOfMines) && 
+        (isArraysEqual(board.minesArr,board.flagArr))&& 
+        isAllSquaresVisted()){
         document.getElementById("messegeDiv").textContent = "You Won :)"
         changeImage("gameStatusImage", 'W');
         clearTimeout(myTimer);
@@ -255,6 +261,30 @@ isPlayerWon = function () {
         document.getElementById('minesweeperGrid').style.pointerEvents = 'none';
     }
 };
+
+//Function to check if flagArr and MinesArr are equal
+isArraysEqual=function (array1,array2){
+    var isEqual=false;
+    for (let i=0;i<array1.length;i++){
+        if  (array1[i]!=array2[i]) {
+            return false;
+        }
+                   
+    }
+return true;
+};
+//Function to check if all the squares are visited
+isAllSquaresVisted=function(){
+   for (let i=0;i<board.height;i++){
+        for (let j=0;j<board.width;j++){
+            if (board.visitedSquares[i][j]==0){
+                return false;
+            }
+        }
+   }
+   return true;
+};
+
 //Function to change the image for particular square 
 function changeImage(elementId, imgId) {
     let mineSquare = document.getElementById(elementId);

@@ -1,15 +1,11 @@
 body{
     width: 850px;
     height: 100vh;
-    background-color: grey;
+    background-color: rgb(32, 32, 211);
     margin: 0 auto;
 }
 .pageHeading{
     text-align: center;
-    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 50px;
-    color: rgb(238, 230, 217);
-    background-color: darkblue; */
     min-width:50px;
     min-height:150px;
     background-image: url('images/title.png');
@@ -21,7 +17,7 @@ body{
     flex-direction: column;
     justify-content:center ;
     border:2px solid white;
-    background-color: mediumturquoise;
+    background-color: rgba(245, 245, 116, 0.938);
     padding:20px;
 }
 
@@ -84,7 +80,9 @@ body{
 #messegeDiv{
     width: 40%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: bold;
     color: blue;
     margin:0 auto;
+    text-align: center;
 }
