@@ -194,15 +194,17 @@ clickEventFunc = function (event) {
 //Check the clicked square 
 function checkCurrentSquare(x, y) {
     //console.log(board.flagArr);
-    board.squareCount++;
+    
     board.flagArr[x][y] = 1;
-    if (("" + board.map[x][y]).includes("*")) {
-        return "*";
+    if (("" + board.map[x][y]).includes("*")||("" + board.map[x][y]).includes("F")) {
+        return "-1";
     }
     else if ("12345678".includes(board.map[x][y])) {
+        board.squareCount++;
         changeImage("" + x + y, "" + board.map[x][y]);
         return "1";
     } else if (("" + board.map[x][y]).includes("0")) {
+        board.squareCount++;
         changeImage("" + x + y, "" + board.map[x][y]);
         return "0";
     }
