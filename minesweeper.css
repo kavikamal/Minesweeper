@@ -6,17 +6,22 @@ body{
 }
 .pageHeading{
     text-align: center;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 50px;
     color: rgb(238, 230, 217);
-    background-color: darkblue;
+    background-color: darkblue; */
+    min-width:50px;
+    min-height:150px;
+    background-image: url('images/title.png');
+    background-position: center;
+    background-repeat: no-repeat; 
 }
 .gamePage{
     display:flex;
     flex-direction: column;
     justify-content:center ;
     border:2px solid white;
-    background-color: darkcyan;
+    background-color: mediumturquoise;
     padding:20px;
 }
 
@@ -56,23 +61,18 @@ body{
     height:50px;
     background-color: black; 
 }
-
-.minesNumberDisplay{
-   
+.minesNumberDisplay{   
     color:red;
     font-size: 50px;
     font-family: 'Arial Narrow';
 }
-#gameStatusImage{
-   
+#gameStatusImage{ 
     min-width:50px;
     background-image: url("images/happy.png");
     background-position: center;
-    background-repeat: no-repeat;
-    
+    background-repeat: no-repeat;    
 }
-.timer{
-   
+.timer{  
     float:right;
     color:red;
     font-size: 50px;
@@ -81,4 +81,10 @@ body{
 .startBtn {
     width: 5em;  height: 2em;
 }
-
+#messegeDiv{
+    width: 40%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    color: blue;
+    margin:0 auto;
+}
